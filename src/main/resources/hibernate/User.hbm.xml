@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.dealership.security.User" table="users">
+		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+		<property name="password" type="string">
+			<column name="password" not-null="true"></column>
+		</property>
+		<property name="username" type="string">
+			<column name="username" not-null="true"  unique="true"></column>
+		</property>
+		
+		<bag name="authorities" lazy="false">
+			<key column="user_id"></key>
+			<many-to-many entity-name="com.dealership.security.Authority">
+				<column name="authority_id" not-null="true" />
+			</many-to-many>
+		</bag>
+		
+		<one-to-one name="userContact" class="com.dealership.model.SellerContact"
+			cascade="all"  />
+	</class>
+</hibernate-mapping>
