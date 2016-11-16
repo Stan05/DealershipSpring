@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="com.dealership.model.car.Car" table="cars">
+		<id name="id" type="java.lang.Long">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+		<property name="brand" type="string">
+			<column name="brand" not-null="true" />
+		</property>
+		<property name="model" type="string">
+			<column name="model" not-null="true" />
+		</property>
+		<component name="technicalInformation"
+			class="com.dealership.model.car.TechnicalInformation">
+			<property name="firstRegistration" type="int">
+				<column name="firstRegistration" not-null="true" />
+			</property>
+			<property name="fuel" type="string">
+				<column name="fuel" not-null="true" />
+			</property>
+			<property name="mileage" type="int">
+				<column name="mileage" not-null="true" />
+			</property>
+		</component>
+	
+		<bag name="features" lazy="false" fetch="select">
+			<key column="car_id"></key>
+			<element column="feature_id" >
+				<type name="org.hibernate.type.EnumType">
+					<param name="enumClass">com.dealership.model.car.Features</param>
+					<param name="type">12</param>
+				</type>
+			</element>
+		</bag>
+	</class>
+</hibernate-mapping>

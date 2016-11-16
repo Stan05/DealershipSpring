@@ -1,0 +1,31 @@
+<b:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:b="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+						http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+	
+	<http use-expressions="true">
+	
+		<intercept-url pattern="/resources/**" access="permitAll"/>
+		<intercept-url pattern="/view/**" access="permitAll"/>
+		<intercept-url pattern="/user/login**" access="permitAll" />
+		<intercept-url pattern="/user/register" access="permitAll" />
+		<intercept-url pattern="/**" access="authenticated" />
+		<logout logout-success-url="/view/all"
+			 invalidate-session="true"
+			delete-cookies="JSESSIONID" />
+		<form-login login-page="/user/login" 
+			login-processing-url="/user/login"
+			default-target-url="/view/all" 
+			authentication-failure-url="/user/login?error" />
+		<csrf />
+	</http>
+
+	<b:bean id="userDetailsService"
+		class="com.dealership.web.service.impl.UserDetailsServiceImpl" />
+		
+	<authentication-manager>
+		<authentication-provider user-service-ref="userDetailsService">
+		</authentication-provider>
+	</authentication-manager>
+</b:beans>
